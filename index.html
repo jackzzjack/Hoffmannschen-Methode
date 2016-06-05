@@ -1,0 +1,195 @@
+<html lang='en'>
+	<head>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+   		<!-- Include all compiled plugins (below), or include individual files as needed -->
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<title>霍夫曼係數 Hoffmannschen Methode</title>
+
+		<script type="text/javascript">
+			// 閏年問題
+			// 2016 ~ 2020 會多出一天
+			// 開始日期 結束日期 本金 (日期沒有公元前這件事)
+
+			// 104 - 114, 104-109 有 issue
+			// 前後算不算的問題
+
+			function cal(start_date, end_date, Money) {
+				//a = new Date(2016, 06, 03);
+				//b = new Date(2021, 06, 03);
+				a = new Date(start_date);
+
+				a_nextYear = new Date(start_date);
+				a_nextYear.setFullYear(a_nextYear.getFullYear()+1);
+				b = new Date(end_date);
+
+				total_year = 0;
+
+				// Use a_nextYear to divide big partition (Year)
+				while ((b - a_nextYear) >= 0) {
+					console.log(a_nextYear);
+
+					a.setFullYear(a.getFullYear()+1);
+					a_nextYear.setFullYear(a_nextYear.getFullYear()+1);
+
+					total_year++;
+				}
+
+				console.log('a: ' + a);
+				console.log('b: ' + b);	
+				console.log('b-a: ' + (b-a).toString());
+				console.log('b-a: ' + getDays((b-a).toString()));
+
+				console.log("Year: " + total_year);
+
+				var count = 0;
+				var table_content = document.getElementById('content');
+				var table_year = '<thead>' +
+									'<tr>' +
+										'<th>Year</th>' +
+										'<th>Day</th>' +
+										'<th>Money</th>' +
+										'<th>小計</th>' +
+									'</tr>' +
+								'</thread>' +
+								'<tbody>';
+				for (i=1; i <= total_year; i++) {
+					var year_count = (Money / (1+i*0.05));
+					count += year_count;
+
+					var tmp = '<tr><th>' + i + '</th><td>' + 0 + '</td><td>' + year_count + '</td><td>' + count + '</td></tr>';
+
+					table_year = table_year + tmp;
+				}
+
+				table_year = table_year + '</tbody>';
+
+				// Not a complete Year Part ....
+				if (parseInt(getDays((b-a).toString()), 10) > 0) {
+					var day_count = 0;
+					if (detectLeapYear(b.getFullYear()) == true)
+						day_count = (Money / (1+i*0.05)) / 366 * parseInt(getDays((b-a).toString()), 10);
+					else
+						day_count = (Money / (1+i*0.05)) / 365 * parseInt(getDays((b-a).toString()), 10);
+
+					count += day_count;
+
+					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td></tr>';					
+				}
+
+				table_content.innerHTML = table_year;
+			}
+
+			// 如果說從 103 ~ 117 中間，經過了很多的閏年，但實際上計算時只會看最後一年是否為閏年。
+			// 因此在從結束日期 -  開始日期，需要將中間的所有閏年全部減掉
+			// a is start Year
+			// b is end Year
+			function remove_AllLeapYear_WithMiddleSlice(a, b) {
+				// DO NOT DETECT last YEAR, a is 103, b is 117, slice should range between 103 and 117.
+				slice = b - a;
+				console.log(slice);
+
+				leapYear = 0;
+
+				for (var i=0; i < slice; i++) {
+					console.log(a+i);
+					if (detectLeapYear(a+i)) {
+						leapYear++;
+					}
+				}
+
+				return leapYear;
+			}
+
+			function calTotal(price) {
+				total = 0;
+
+				for (var i=0; i < price.length; i++) {
+					total = total + price[i];
+				}
+
+				return total;
+			}
+
+			function detectLeapYear(end_year) {
+				if (((end_year % 400) == 0) || ((end_year % 4) == 0 && ((end_year % 100) != 0))) {
+					return true;
+				}
+
+				return false;
+			}
+
+			function getDays(microseconds) {
+				day = microseconds / 1000 / 60 / 60 / 24;
+
+				return day;			// (Before and after both mean it. So plus 1)
+			}
+
+			function getYears(microseconds) {
+				return Math.floor(microseconds / 1000 / 60 / 60 / 24 / 365);
+			}
+
+			/*
+			 *	return value = b - a (microseconds)
+			 */
+			function timeMinus(a, b) {
+				// b - a 要再額外多加一天
+				return b - a + 1000 * 60 * 60 * 24;
+			}
+
+			//cal("103-10-03", '113-10-02');
+			cal("103-10-03", '117-7-22', 100);
+
+			function btn_cal() {
+				console.log('HEllo');
+
+				cal(document.getElementById('start_date').value, document.getElementById('end_date').value, document.getElementById('money').value);
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<h1>霍夫曼係數 <small>Hoffmannschen Methode</small></h1>
+			<div class="row">
+				<form class='form-horizontal'>
+					<div class='form-group'>
+						<label for="exampleInputName2" class="col-sm-2 control-label">開始日期</label>
+						<div class="col-sm-10">
+							<input type="date" class="form-control" id="start_date" placeholder="開始日期">
+						</div>
+					</div>
+					<div class='form-group'>
+						<label for="exampleInputName2" class="col-sm-2 control-label">結束日期</label>
+						<div class="col-sm-10">
+							<input type="date" class="form-control" id="end_date" placeholder="結束日期">
+						</div>
+					</div>
+					<div>
+						<label for="exampleInputName2" class="col-sm-2 control-label">本金</label>
+						<div class="col-sm-10">
+							<input type='number' class='form-control' placeholder='本金' id='money'>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class='row'>
+				<div class='col-xs-3 col-xs-offset-9'>
+					<button class="btn btn-default" onClick='btn_cal();'>Calculate</button>
+				</div>
+			</div>
+			<table class="table table-hover" id='content'>
+				<!-- .... -->
+			</table>
+		</div>
+	</body>
+</html>
