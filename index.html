@@ -58,6 +58,7 @@
 				console.log("Year: " + total_year);
 
 				var count = 0;
+				var count_hoffmannschen_multiple = 0;
 				var table_content = document.getElementById('content');
 				var table_year = '<thead>' +
 									'<tr>' +
@@ -65,31 +66,39 @@
 										'<th>Day</th>' +
 										'<th>Money</th>' +
 										'<th>小計</th>' +
+										'<th>霍夫曼係數累加</th>' +
 									'</tr>' +
 								'</thread>' +
 								'<tbody>';
-				for (i=1; i <= total_year; i++) {
-					var year_count = (Money / (1+i*0.05));
+				for (i=0; i < total_year; i++) {
+					var hoffmannschen = 1+i*0.05;
+					var hoffmannschen_multiple = 1/(1+i*0.05);
+					var year_count = (Money / hoffmannschen);
 					count += year_count;
+					count_hoffmannschen_multiple += hoffmannschen_multiple;
 
-					var tmp = '<tr><th>' + i + '</th><td>' + 0 + '</td><td>' + year_count + '</td><td>' + count + '</td></tr>';
+					var tmp = '<tr><th>' + i + '</th><td>' + 0 + '</td><td>' + year_count + '</td><td>' + count + '</td><td>' + count_hoffmannschen_multiple + '</td></tr>';
 
 					table_year = table_year + tmp;
 				}
 
 				table_year = table_year + '</tbody>';
 
-				// Not a complete Year Part ....
+				// Not a complete Year Part .... i still in use.
 				if (parseInt(getDays((b-a).toString()), 10) > 0) {
+					var hoffmannschen = 1+i*0.05;
+					var hoffmannschen_multiple = 1/(1+i*0.05);
 					var day_count = 0;
+					count_hoffmannschen_multiple += hoffmannschen_multiple;
+
 					if (detectLeapYear(b.getFullYear()) == true)
-						day_count = (Money / (1+i*0.05)) / 366 * parseInt(getDays((b-a).toString()), 10);
+						day_count = (Money / hoffmannschen) / 366 * parseInt(getDays((b-a).toString()), 10);
 					else
-						day_count = (Money / (1+i*0.05)) / 365 * parseInt(getDays((b-a).toString()), 10);
+						day_count = (Money / hoffmannschen) / 365 * parseInt(getDays((b-a).toString()), 10);
 
 					count += day_count;
 
-					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td></tr>';					
+					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ count_hoffmannschen_multiple + '</td></tr>';
 				}
 
 				table_content.innerHTML = table_year;
