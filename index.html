@@ -97,7 +97,6 @@
 					var hoffmannschen = 1+i*0.05;
 					var hoffmannschen_multiple = 1/(1+i*0.05);
 					var day_count = 0;
-					count_hoffmannschen_multiple += hoffmannschen_multiple;
 
 					if (detectLeapYear(b.getFullYear()) == true)
 						day_count = (Money / hoffmannschen) / 366 * parseInt(getDays((b-a).toString()), 10);
@@ -106,7 +105,7 @@
 
 					count += day_count;
 
-					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ count_hoffmannschen_multiple + '</td></tr>';
+					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ (count / Money) + '</td></tr>';
 				}
 
 				table_content.innerHTML = table_year;
