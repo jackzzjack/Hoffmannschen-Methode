@@ -110,7 +110,8 @@
 
 					count += day_count;
 
-					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ (count / Money) + '</td></tr>';
+					// (i-1) because there are plus 1 before breaking loop already, so we need to minus back.
+					table_year += '<tr><th>' + (i-1) + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ (count / Money) + '</td></tr>';
 				}
 
 				table_content.innerHTML = table_year;
