@@ -190,30 +190,28 @@
 	<body>
 		<div class="container">
 			<h1>霍夫曼係數 <small>Hoffmannschen Methode</small></h1>
-			<div class="row">
-				<div class='form-horizontal' onsubmit='btn_cal();' >
-					<div class='form-group'>
-						<label for="exampleInputName2" class="col-sm-2 control-label">開始日期</label>
-						<div class="col-sm-10">
-							<input type="date" class="form-control" id="start_date" placeholder="開始日期">
+			<div class='form-horizontal'>
+				<div class='form-group'>
+					<label for="exampleInputName2" class="col-sm-2 control-label">開始日期</label>
+					<div class="col-sm-10">
+						<input type="date" class="form-control" id="start_date" placeholder="開始日期">
 						</div>
+				</div>
+				<div class='form-group'>
+					<label for="exampleInputName2" class="col-sm-2 control-label">結束日期</label>
+					<div class="col-sm-10">
+						<input type="date" class="form-control" id="end_date" placeholder="結束日期">
 					</div>
-					<div class='form-group'>
-						<label for="exampleInputName2" class="col-sm-2 control-label">結束日期</label>
-						<div class="col-sm-10">
-							<input type="date" class="form-control" id="end_date" placeholder="結束日期">
-						</div>
-					</div>
-					<div>
-						<label for="exampleInputName2" class="col-sm-2 control-label">本金</label>
-						<div class="col-sm-10">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputName2" class="col-sm-2 control-label">本金</label>
+					<div class="col-sm-10">
 							<input type='number' class='form-control' placeholder='本金' id='money' onkeypress="keyboard_detect(event);">
-						</div>
 					</div>
-					<div class='row'>
-						<div class='col-sm-12 col-xs-12 col-md-12'>
-							<button class="btn btn-default btn-block" onClick='btn_cal();' onkeypress="keyboard_detect(event);">Calculate</button>
-						</div>
+				</div>
+				<div class='form-group'>
+					<div class='col-sm-12 col-xs-12 col-md-12'>
+						<button class="btn btn-default btn-block" onClick='btn_cal();' onkeypress="keyboard_detect(event);">Calculate</button>
 					</div>
 				</div>
 			</div>
