@@ -10,11 +10,16 @@
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="css/footer.css">
+
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -58,12 +63,12 @@
 					total_year++;
 				}
 
-				console.log('a: ' + a);
-				console.log('b: ' + b);	
-				console.log('b-a: ' + (b-a).toString());
-				console.log('b-a: ' + getDays((b-a).toString()));
+				//console.log('a: ' + a);
+				//console.log('b: ' + b);	
+				//console.log('b-a: ' + (b-a).toString());
+				//console.log('b-a: ' + getDays((b-a).toString()));
 
-				console.log("Year: " + total_year);
+				//console.log("Year: " + total_year);
 
 				var count = 0;
 				var count_hoffmannschen_multiple = 0;
@@ -105,7 +110,8 @@
 
 					count += day_count;
 
-					table_year += '<tr><th>' + 0 + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ (count / Money) + '</td></tr>';
+					// (i-1) because there are plus 1 before breaking loop already, so we need to minus back.
+					table_year += '<tr><th>' + (i-1) + '</th><td>' + getDays((b-a).toString()) + '</td><td>' + day_count + '</td><td>' + count + '</td><td>'+ (count / Money) + '</td></tr>';
 				}
 
 				table_content.innerHTML = table_year;
@@ -186,32 +192,30 @@
 	</head>
 
 	<body>
-		<div class="container-fluid">
+		<div class="container">
 			<h1>霍夫曼係數 <small>Hoffmannschen Methode</small></h1>
-			<div class="row">
-				<div class='form-horizontal' onsubmit='btn_cal();' >
-					<div class='form-group'>
-						<label for="exampleInputName2" class="col-sm-2 control-label">開始日期</label>
-						<div class="col-sm-10">
-							<input type="date" class="form-control" id="start_date" placeholder="開始日期">
+			<div class='form-horizontal'>
+				<div class='form-group'>
+					<label for="exampleInputName2" class="col-sm-2 control-label">開始日期</label>
+					<div class="col-sm-10">
+						<input type="date" class="form-control" id="start_date" placeholder="開始日期">
 						</div>
+				</div>
+				<div class='form-group'>
+					<label for="exampleInputName2" class="col-sm-2 control-label">結束日期</label>
+					<div class="col-sm-10">
+						<input type="date" class="form-control" id="end_date" placeholder="結束日期">
 					</div>
-					<div class='form-group'>
-						<label for="exampleInputName2" class="col-sm-2 control-label">結束日期</label>
-						<div class="col-sm-10">
-							<input type="date" class="form-control" id="end_date" placeholder="結束日期">
-						</div>
-					</div>
-					<div>
-						<label for="exampleInputName2" class="col-sm-2 control-label">本金</label>
-						<div class="col-sm-10">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputName2" class="col-sm-2 control-label">本金</label>
+					<div class="col-sm-10">
 							<input type='number' class='form-control' placeholder='本金' id='money' onkeypress="keyboard_detect(event);">
-						</div>
 					</div>
-					<div class='row'>
-						<div class='col-xs-3 col-xs-offset-9'>
-							<button class="btn btn-default" onClick='btn_cal();' onkeypress="keyboard_detect(event);">Calculate</button>
-						</div>
+				</div>
+				<div class='form-group'>
+					<div class='col-sm-12 col-xs-12 col-md-12'>
+						<button class="btn btn-default btn-block" onClick='btn_cal();' onkeypress="keyboard_detect(event);">Calculate</button>
 					</div>
 				</div>
 			</div>
@@ -219,5 +223,14 @@
 				<!-- .... -->
 			</table>
 		</div>
+
+		<footer class="footer">
+    		<div class="container">
+    			<a href='https://github.com/jackzzjack/Hoffmannschen-Methode'>
+    				<img src='./img/GitHub-Mark-32px.png' class="text-muted" alt="Github image">
+    			</a>
+			</div>
+		</footer>
+
 	</body>
 </html>
